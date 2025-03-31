@@ -226,6 +226,17 @@ static void refreshUYouAppearance() {
 }
 %end
 
+%hook YTPlayerViewController
+
+- (id)varispeedController {
+    id controller = %orig;
+    if (controller == nil && [self respondsToSelector:@selector(overlayManager)])
+        controller = [self.overlayManager varispeedController];
+    return controller;
+}
+
+%end
+
 %ctor {
     %init;
     // if (@available(iOS 16, *)) {
